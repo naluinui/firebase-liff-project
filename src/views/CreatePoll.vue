@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="section">
     <div class="container">
       <h1 class="title">Create Pizzanulok Poll</h1>
       <b-field label="Name">

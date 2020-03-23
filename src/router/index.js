@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import PizzaList from '../views/PizzaList.vue'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
     path: '/create-poll',
     name: 'CreatePoll',
     component: () => import(/* webpackChunkName: "create-poll" */ '../views/CreatePoll.vue')
+  },
+  {
+    path: '/products',
+    name: 'PizzaList',
+    component: PizzaList
   }
 ]
 
