@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import CreatePoll from '../views/CreatePoll.vue'
 
 Vue.use(VueRouter)
 
@@ -22,7 +21,7 @@ const routes = [
   {
     path: '/create-poll',
     name: 'CreatePoll',
-    component: CreatePoll
+    component: () => import(/* webpackChunkName: "create-poll" */ '../views/CreatePoll.vue')
   }
 ]
 
