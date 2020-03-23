@@ -12,7 +12,7 @@
 </template>
 
 <script>
-
+const firebase  = require('../firebase.js')
 export default {
   beforeCreate() {
     // TODO: initial LIFF
@@ -28,8 +28,28 @@ export default {
       // TODO: close LIFF window
     },
     start() {
-      // TODO: create poll in Firebase
+      const main = this
+      if (!name) 
+      firebase.pollsCollection.add({
+        'name': name
+      })
+      .then(function(docRef) {
+        console.log(docRef)
+        main.toast('Poll created!', true)
         // TODO: send message to chat room once finish creating poll
+        // TODO: or share to friend with share picker
+      })
+      .catch(function(error) {
+        main.toast('Oops! Something went wrong!', false)
+        console.error(error)
+      })
+    },
+    toast(message, isSuccess) {
+        this.$buefy.toast.open({
+          message: message,
+          position: 'is-bottom',
+          type: isSuccess ? 'is-success' : 'is-danger'
+        })
     }
   }
 }
