@@ -1,6 +1,7 @@
 <template>
   <section class="section">
     <div class="container">
+      <h1>{{pollName}}</h1>
       <!-- TODO: consider to move out the library or find another library that can see people who is already voted -->
       <button class="button is-fullwidth" v-for="option in opts" v-bind:key="option.value" @click="voteFor(option)" :disabled="isVoted">{{option.text}}</button>
       <vue-poll v-bind="options" @addvote="addVote"/>
@@ -16,6 +17,7 @@
       data() {
         return {
           pollId: this.$route.params.pollId,
+          pollName: "",
           options: {
             question: '',
             answers: [],
@@ -33,6 +35,7 @@
         firebase.pollsCollection.doc(this.pollId).onSnapshot(docSnapshot => {
           console.log(`Received doc snapshot: ${JSON.stringify(docSnapshot.data())}`);
           const poll = docSnapshot.data()
+          main.pollName = poll.name
           main.options = {
             question: poll.name,
             answers: poll.options,
@@ -46,7 +49,12 @@
       methods: {
         voteFor(option) {
           console.log(option.text)
-          this.isVoted = false
+          // if (this.isVoted) {
+
+          // } else {
+          //   this.isVoted = true
+
+          // }
         },
         addVote(obj) {
           // const options = this.options.map(option => option.value === obj.value ? { ...option, value })
