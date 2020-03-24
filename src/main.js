@@ -4,6 +4,9 @@ import router from './router'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
+// access to LIFF property
+Vue.prototype.$liff = window.liff
+
 Vue.config.productionTip = false
 
 Vue.use(Buefy)
