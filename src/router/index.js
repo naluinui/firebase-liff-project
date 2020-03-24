@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import PizzaList from '../views/PizzaList.vue'
 import Poll from '../views/Poll.vue'
-import OptionSelector from '../views/OptionSelector.vue'
+import OptionVoters from '../views/OptionVoters.vue'
 
 Vue.use(VueRouter)
 
@@ -37,8 +37,8 @@ const routes = [{
   },
   {
     path: '/poll/:pollId/option/:optionValue',
-    name: 'OptionSelector',
-    component: OptionSelector
+    name: 'OptionVoters',
+    component: OptionVoters
   }
 ]
 
