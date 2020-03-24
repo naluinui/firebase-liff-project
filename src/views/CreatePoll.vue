@@ -6,7 +6,7 @@
           <b-input v-model="name"></b-input>
       </b-field>
       <b-button @click="cancel">Cancel</b-button>
-      <b-button type="is-primary" @click="start">Start</b-button>
+      <b-button type="is-primary" @click="start" :class="{ 'is-loading': isCreating }">Start</b-button>
     </div>
   </section>
 </template>
@@ -19,7 +19,8 @@ export default {
   },
   data () {
     return {
-      name: ''
+      name: 'Test',
+      isCreating: false
     }
   },
   methods: {
@@ -29,20 +30,34 @@ export default {
     },
     start() {
       const main = this
-      if (!name) 
-      firebase.pollsCollection.add({
-        'name': name
-      })
-      .then(function(docRef) {
-        console.log(docRef)
-        main.toast('Poll created!', true)
-        // TODO: send message to chat room once finish creating poll
-        // TODO: or share to friend with share picker
-      })
-      .catch(function(error) {
-        main.toast('Oops! Something went wrong!', false)
-        console.error(error)
-      })
+      main.isCreating = true
+      // if (name === '') { main.toast('Please set the poll name', false) }
+      firebase.pizzasCollection.get().then(snapshot => {
+        const options = snapshot.docs.map ((doc, index) => { 
+          const pizza = doc.data()
+          return {
+            'value': index,
+            'text': pizza.name, 
+            'votes': 0
+          }
+        })
+        firebase.pollsCollection.add({
+          'name': name,
+          'options': options
+        })
+        .then(function(docRef) {
+          console.log(docRef)
+          main.isCreating = false
+          main.toast('Poll created!', true)
+          // TODO: send message to chat room once finish creating poll
+          // TODO: or share to friend with share picker
+        })
+        .catch(function(error) {
+          main.isCreating = false
+          main.toast('Oops! Something went wrong!', false)
+          console.error(error)
+        })
+      });
     },
     toast(message, isSuccess) {
         this.$buefy.toast.open({

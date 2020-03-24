@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import PizzaList from '../views/PizzaList.vue'
+import Poll from '../views/Poll.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
     path: '/products',
     name: 'PizzaList',
     component: PizzaList
+  },
+  {
+    path: '/poll',
+    name: 'Poll',
+    component: Poll
   }
 ]
 
