@@ -31,7 +31,7 @@ const routes = [
     component: PizzaList
   },
   {
-    path: '/poll',
+    path: '/poll/:pollId',
     name: 'Poll',
     component: Poll
   }

@@ -12,9 +12,10 @@
   import VuePoll from 'vue-poll'
   const firebase  = require('../firebase.js')
 
-  export default {        
+  export default {  
       data() {
         return {
+          pollId: this.$route.params.pollId,
           options: {
             question: '',
             answers: [],
@@ -29,7 +30,7 @@
       },
       mounted() {
         const main = this
-        firebase.pollsCollection.doc('4T71FaYF9k1QQrrEKQGj').onSnapshot(docSnapshot => {
+        firebase.pollsCollection.doc(this.pollId).onSnapshot(docSnapshot => {
           console.log(`Received doc snapshot: ${JSON.stringify(docSnapshot.data())}`);
           const poll = docSnapshot.data()
           main.options = {
