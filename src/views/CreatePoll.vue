@@ -18,27 +18,42 @@ const firebase  = require('../firebase.js')
 const line  = require('../line-config.js')
 
 export default {
-  beforeMount() {
-    const liff = this.$liff
-    // TODO: initial LIFF
-    liff.init({
-      liffId: '1653977512-nmgd89ge'
-    }).then(() => {
-      console.log('LIFF initialize finished')
-    }).catch((err) => {
-      console.error(err);
-    });
-  },
   data () {
     return {
       name: null,
-      isCreating: false
+      isCreating: false,
+      userProfile: null
     }
+  },
+  beforeMount() {
+    const app = this
+    const liff = app.$liff
+    // TODO: initial LIFF
+    liff.init({
+      liffId: line.createPollLiffID
+    }).then(() => {
+      if (!liff.isLoggedIn()) {
+        liff.login()
+      } else {
+        liff.getProfile()
+        .then(profile => {
+          console.log(JSON.stringify(profile))
+          app.userProfile = profile
+          delete app.userProfile.statusMessage
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+      }
+      console.log('LIFF initialize finished')
+    }).catch((err) => {
+      console.error(err)
+    })
   },
   methods: {
     cancel() {
       this.$buefy.notification.open('Clicked!!')
-      this.$liff.closeWindow();
+      this.$liff.closeWindow()
     },
     start() {
       const app = this
@@ -58,7 +73,8 @@ export default {
         })
         firebase.pollsCollection.add({
           'name': app.name,
-          'options': options
+          'options': options,
+          'createdBy': app.userProfile
         })
         .then(function(docRef) {
           console.log(docRef)
