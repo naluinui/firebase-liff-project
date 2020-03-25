@@ -3,10 +3,12 @@
     <div class="container">
       <h1 class="title">Create Pizzanulok Poll</h1>
       <b-field label="Name">
-          <b-input v-model="name"></b-input>
+          <b-input v-model="name" placeholder="Poll name"></b-input>
       </b-field>
-      <b-button @click="cancel">Cancel</b-button>
-      <b-button type="is-primary" @click="start" :class="{ 'is-loading': isCreating }">Start</b-button>
+      <div class="buttons is-centered">
+        <b-button @click="cancel">Cancel</b-button>
+        <b-button type="is-primary" @click="start" :class="{ 'is-loading': isCreating }">Start</b-button>
+      </div>
     </div>
   </section>
 </template>
@@ -19,7 +21,7 @@ export default {
   },
   data () {
     return {
-      name: 'Test',
+      name: null,
       isCreating: false
     }
   },
@@ -29,9 +31,12 @@ export default {
       // TODO: close LIFF window
     },
     start() {
-      const main = this
-      main.isCreating = true
-      // if (name === '') { main.toast('Please set the poll name', false) }
+      const app = this
+      if (!app.name) { 
+        app.toast('Please set the poll name', false)
+        return
+      }
+      app.isCreating = true
       firebase.pizzasCollection.get().then(snapshot => {
         const options = snapshot.docs.map ((doc, index) => { 
           const pizza = doc.data()
@@ -42,19 +47,19 @@ export default {
           }
         })
         firebase.pollsCollection.add({
-          'name': name,
+          'name': app.name,
           'options': options
         })
         .then(function(docRef) {
           console.log(docRef)
-          main.isCreating = false
-          main.toast('Poll created!', true)
+          app.isCreating = false
+          app.toast('Poll created!', true)
           // TODO: send message to chat room once finish creating poll
           // TODO: or share to friend with share picker
         })
         .catch(function(error) {
-          main.isCreating = false
-          main.toast('Oops! Something went wrong!', false)
+          app.isCreating = false
+          app.toast('Oops! Something went wrong!', false)
           console.error(error)
         })
       });
