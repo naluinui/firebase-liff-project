@@ -23,7 +23,6 @@
             answers: [],
             finalResults: false
           },
-          isVoted: false,
           user: {
             name: "Tukta",
             image: "https://image.flaticon.com/icons/svg/219/219961.svg"
@@ -40,11 +39,9 @@
           this.options = {
             question: poll.name,
             answers: poll.options,
-            finalResults: false
+            finalResults: poll.voters.filter(voter => voter.name === this.user.name).length > 0
           }
           this.pollOptions = poll.options
-          this.voters = poll.voters
-          this.isVoted = poll.voters.filter(voter => voter.name === this.user.name).length > 0
         }, err => {
           console.log(`Encountered error: ${err}`)
         })
@@ -61,12 +58,11 @@
               image: this.user.image,
               option: selecetdValue
             }
-            this.voters.push(voter)
-            this.isVoted = true
             firebaseApp.pollsCollection.doc(this.pollId).update({
               options: this.pollOptions,
               voters: firebase.firestore.FieldValue.arrayUnion(voter)
             })
+            this.options.finalResults = true
           }
         },
         showVoters(selectedOption) {
