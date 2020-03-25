@@ -15,9 +15,19 @@
 
 <script>
 const firebase  = require('../firebase.js')
+const line  = require('../line-config.js')
+
 export default {
-  beforeCreate() {
+  beforeMount() {
+    const liff = this.$liff
     // TODO: initial LIFF
+    liff.init({
+      liffId: '1653977512-nmgd89ge'
+    }).then(() => {
+      console.log('LIFF initialize finished')
+    }).catch((err) => {
+      console.error(err);
+    });
   },
   data () {
     return {
@@ -28,12 +38,12 @@ export default {
   methods: {
     cancel() {
       this.$buefy.notification.open('Clicked!!')
-      // TODO: close LIFF window
+      this.$liff.closeWindow();
     },
     start() {
       const app = this
       if (!app.name) { 
-        app.toast('Please set the poll name', false)
+        app.toast('กรุณาตั้งชื่อโพล', false)
         return
       }
       app.isCreating = true
@@ -53,13 +63,29 @@ export default {
         .then(function(docRef) {
           console.log(docRef)
           app.isCreating = false
-          app.toast('Poll created!', true)
-          // TODO: send message to chat room once finish creating poll
-          // TODO: or share to friend with share picker
+          app.toast('โพลถูกสร้างแล้ว!', true)
+          if (app.$liff.isLoggedIn()) {
+            const messages = [{
+              "type": "text",
+              "text": `โพล ${app.name} ของคุณถูกสร้างแล้ว ส่งต่อให้เพื่อนได้เลย`
+            },{
+              "type": "text",
+              "text": line.pollLiffUrl + '/' + docRef.id
+            }]
+            // TODO: send message to chat room once finish creating poll
+            app.$liff.sendMessages(messages)
+            .then(() => {
+              console.log('message sent')
+              app.$liff.closeWindow()
+            })
+            .catch((err) => {
+              console.log('error', err)
+            })
+          }
         })
         .catch(function(error) {
           app.isCreating = false
-          app.toast('Oops! Something went wrong!', false)
+          app.toast('อุ๊ย! มีบางอย่างผิดพลาด', false)
           console.error(error)
         })
       });

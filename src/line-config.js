@@ -1,7 +1,7 @@
-const liffID = '1653977512-WPxrl0xv'
-const baseLiffUrl = 'https://liff.line.me/' + liffID
+const pollLiffID = '1653977512-XJQLkOQW'
+const pollLiffUrl = 'https://liff.line.me/' + pollLiffID
 
 export {
-  liffID,
-  baseLiffUrl
+  pollLiffID,
+  pollLiffUrl
 }
