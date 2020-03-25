@@ -2,7 +2,10 @@
   <section class="section">
     <div class="container">
         <h1 v-if="option">{{voters.length}} Person{{voters.length > 1 ? 's' : ''}} voted for "{{option.text}}"</h1>
-        <p v-for="voter in voters" :key="voter.name">{{voter.name}}</p>
+        <div v-for="voter in voters" :key="voter.name" class="voter">
+          <img :src="voter.image" width="80" height="80">
+          <p>{{voter.name}}</p>
+        </div>
     </div>
   </section>
 </template>
@@ -38,3 +41,18 @@
       }
   }
 </script>
+
+<style scoped>
+  .voter {
+    text-align: center;
+    border: 2px solid #77C7F7;
+    box-sizing: border-box;
+    border-radius: 5px;
+    cursor: pointer; 
+    padding: 5px 0; 
+    margin: 8px 0;
+    transition: background .2s ease-in-out;
+    -webkit-transition: background .2s ease-in-out;
+    -moz-transition: background .2s ease-in-out;
+  }
+</style>
