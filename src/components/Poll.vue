@@ -17,7 +17,7 @@
                     <span class="bg" :style="{ width: visibleResults ? a.percent : '0%' }"></span>
                 </template>
                 <template v-else>
-                    <div class="ans-voted final">
+                    <div class="ans-voted final" @click.prevent="handleShowVoters(a)">
                         <span v-if="a.percent" class="percent" v-text="a.percent"></span>                  
                         <span class="txt" v-html="a.text"></span>                                       
                     </div>
@@ -162,10 +162,13 @@
 					obj.customId = this.customId
 				
                 this.$emit('addvote', obj)
+            },
+            handleShowVoters(a){ //Callback
+                let obj = { text: a.text, value: a.value, votes: a.votes, totalVotes: this.totalVotes }
+                this.$emit('showVoters', obj)
             }
         }
     }
-
 </script>
 
 <style>

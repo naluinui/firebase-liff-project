@@ -2,7 +2,7 @@
   <section class="section">
     <div class="container">
       <!-- TODO: consider to move out the library or find another library that can see people who is already voted -->
-      <vue-poll v-bind="options" @addvote="addVote"/>
+      <vue-poll v-bind="options" @addvote="addVote" @showVoters="showVoters"/>
     </div>
   </section>
 </template>
@@ -65,9 +65,9 @@
             this.options.finalResults = true
           }
         },
-        showVoters(selectedOption) {
-          console.log(selectedOption.text)
-          this.$router.push({ name: 'OptionVoters', params: { pollId: this.pollId, optionValue: selectedOption.value } })
+        showVoters(obj) {
+          console.log(obj.text)
+          this.$router.push({ name: 'OptionVoters', params: { pollId: this.pollId, optionValue: obj.value } })
         }
       }
   }
