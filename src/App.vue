@@ -4,6 +4,21 @@
   </div>
 </template>
 
+<script>
+export default {
+  mounted () {
+    const queryString = decodeURIComponent(window.location.search).replace("?liff.state=", "")
+    const params = new URLSearchParams(queryString)
+    const pollId = params.get('poll')
+    console.log(queryString)
+    console.log(pollId)
+    if (pollId) {
+      this.$router.push(`/poll/${pollId}`)
+    }
+  }
+}
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
