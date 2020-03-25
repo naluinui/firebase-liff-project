@@ -8,7 +8,7 @@
 </template>
 
 <script> 
-  import VuePoll from 'vue-poll'
+  import VuePoll from '../components/Poll'
   import firebase from 'firebase'
   const firebaseApp = require('../firebase.js')
 
