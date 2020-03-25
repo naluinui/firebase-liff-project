@@ -1,10 +1,10 @@
 <template>
   <section class="section">
     <div class="container">
-      <h1 v-if="poll">{{poll.name}}</h1>
+      <h1 class="title" v-if="poll">{{poll.name}}</h1>
       <div v-if="isVoted">
         <button v-for="option in options" v-bind:key="option.value" 
-                :class="selectedOption === option.value ? 'button is-fullwidth vote-option selected' : 'button is-fullwidth vote-option'" 
+                :class="selectedOption === option.value ? 'button is-fullwidth vote-option is-primary' : 'button is-fullwidth is-outlined vote-option'" 
                 @click="showVoters(option)">{{option.text}} ({{option.votes}})</button>
       </div>
       <div v-else>  
@@ -29,10 +29,7 @@
         voters: [],
         isVoted: false,
         selectedOption: 0,
-        user: {
-          name: "Pop",
-          image: "https://image.flaticon.com/icons/svg/219/219966.svg"
-        }
+        user: {"userId":"Uec2c48270f939fb48fc5b1e9e9f8e016","displayName":"Nui (นุ้ย)","pictureUrl":"https://profile.line-scdn.net/0h-A8HUAf0cm4FMVpSchENOTl0fANyH3QmfVVqDyE1JAp7A2c4OFRvCidmKF4pCTw7Ol8_WiJkK1wg"}
       }
     },
     mounted() {
@@ -41,7 +38,7 @@
         const poll = docSnapshot.data()
         this.poll = poll
         this.options = poll.options
-        this.isVoted = poll.voters.filter(voter => voter.name === this.user.name).length > 0
+        this.isVoted = Array.isArray(poll.voters) && poll.voters.filter(voter => voter.userId === this.user.userId).length > 0
       }, err => {
         console.log(`Encountered error: ${err}`)
       })
@@ -53,11 +50,8 @@
         const index = this.options.findIndex(option => option.value === this.selectedOption)
         if (index >= 0) {
           this.options[index].votes += 1
-          const voter = {
-            name: this.user.name,
-            image: this.user.image,
-            option: this.selectedOption
-          }
+          const voter = this.user
+          voter.option = this.selectedOption
           firebaseApp.pollsCollection.doc(this.pollId).update({
             options: this.options,
             voters: firebase.firestore.FieldValue.arrayUnion(voter)
@@ -76,8 +70,5 @@
 <style scoped>
   .vote-option {
     margin: 10px 0;
-  }
-  .vote-option.selected {
-    border-color: blue;
   }
 </style>

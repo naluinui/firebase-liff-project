@@ -2,9 +2,9 @@
   <section class="section">
     <div class="container">
         <h1 v-if="option">{{voters.length}} Person{{voters.length > 1 ? 's' : ''}} voted for "{{option.text}}"</h1>
-        <div v-for="voter in voters" :key="voter.name" class="voter">
-          <img :src="voter.image" width="80" height="80">
-          <p>{{voter.name}}</p>
+        <div v-for="voter in voters" :key="voter.userId" class="voter">
+          <img :src="voter.pictureUrl" width="80" height="80">
+          <p>{{voter.displayName}}</p>
         </div>
     </div>
   </section>
