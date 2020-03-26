@@ -1,11 +1,17 @@
 <template>
   <section class="section">
     <div class="container">
-        <h1 v-if="option">{{voters.length}} Person{{voters.length > 1 ? 's' : ''}} voted for "{{option.text}}"</h1>
-        <div v-for="voter in voters" :key="voter.userId" class="voter">
-          <img :src="voter.pictureUrl" width="80" height="80">
-          <p>{{voter.displayName}}</p>
-        </div>
+        <h1 class="title" v-if="option">{{voters.length}} คน โหวตให้ "{{option.text}}"</h1>
+          <table>
+            <tbody>
+              <tr v-for="voter in voters" :key="voter.userId">
+                <figure class="image is-64x64">
+                  <img class="is-rounded" :src="voter.pictureUrl">
+                </figure>
+                <p class="voter-name">{{ voter.displayName }}</p>
+              </tr>
+            </tbody>
+          </table>
     </div>
   </section>
 </template>
@@ -36,23 +42,15 @@
         }, err => {
             console.log(`Encountered error: ${err}`);
         });
-      },
-      methods: {
       }
   }
 </script>
 
 <style scoped>
-  .voter {
-    text-align: center;
-    border: 2px solid #77C7F7;
-    box-sizing: border-box;
-    border-radius: 5px;
-    cursor: pointer; 
-    padding: 5px 0; 
-    margin: 8px 0;
-    transition: background .2s ease-in-out;
-    -webkit-transition: background .2s ease-in-out;
-    -moz-transition: background .2s ease-in-out;
+  table {
+    margin: auto;
+  }
+  .voter-name {
+    padding-bottom: 8px;
   }
 </style>
