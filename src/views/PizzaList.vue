@@ -2,7 +2,9 @@
   <section class="section">
     <div class="container">
       <div class="columns is-multiline">
+        <!-- loading indicator -->
         <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
+        <!-- pizza -->
         <div class="column is-half" v-for="pizza in pizzas" v-bind:key="pizza.id">
           <div class="card">
             <div class="card-image">
@@ -30,22 +32,31 @@
 </template>
 
 <script>
-const firebase  = require('../firebase.js')
+const firebaseApp = require('../firebase.js')
 export default {
   data() {
     return {
-      pizzas: [],
-      isLoading: true
+      pizzas: [{
+        name: 'Hawaiian',
+        price: 300,
+        url: 'https://storage.googleapis.com/devfest-181020.appspot.com/pizzas/hawaiian.jpg',
+        ingredients: ['Ham', 'Pineapple', 'Bacon']
+      }],
+      isLoading: false
     }
   },
   mounted() {
-    const app = this
-    firebase.pizzasCollection.get().then(snapshot => {
-      app.isLoading = false
-      app.pizzas = snapshot.docs.map ( doc => (
+    // TODO: get pizza from Firestore
+    this.isLoading = true
+    firebaseApp.pizzasCollection.get().then(snapshot => {
+      this.isLoading = false
+      this.pizzas = snapshot.docs.map ( doc => (
         {id: doc.id, ...doc.data()}
       ))
     });
+  },
+  methods: {
+    
   }
 }
 </script>
