@@ -10,8 +10,6 @@ export default {
     const queryString = decodeURIComponent(window.location.search).replace("?liff.state=", "")
     const params = new URLSearchParams(queryString)
     const pollId = params.get('poll')
-    console.log(queryString)
-    console.log(pollId)
     if (pollId) {
       this.$router.push(`/poll/${pollId}`)
     }
@@ -26,18 +24,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>
