@@ -13,6 +13,7 @@
                 class="button is-fullwidth vote-option"
                 @click="addVote(option)">{{option.text}}</button>
       </div>
+      <p class="is-size-7" v-if="poll">created by {{ createdBy }}</p>
     </div>
   </section>
 </template>
@@ -30,6 +31,7 @@
         isVoted: false,
         isLoading: false,
         selectedOption: 0,
+        createdBy: 'unknown',
         user: {"userId":"Uec2c48270f939fb48fc5b1e9e9f8e016","displayName":"Nui (นุ้ย)","pictureUrl":"https://profile.line-scdn.net/0h-A8HUAf0cm4FMVpSchENOTl0fANyH3QmfVVqDyE1JAp7A2c4OFRvCidmKF4pCTw7Ol8_WiJkK1wg"}
       }
     },
@@ -41,6 +43,7 @@
         const poll = docSnapshot.data()
         this.poll = poll
         this.options = poll.options
+        this.createdBy = poll.createdBy.displayName
         const myVote = Array.isArray(poll.voters) ? poll.voters.filter(voter => voter.userId === this.user.userId)[0] : {}
         if (myVote && myVote.option) {
           this.isVoted = true
