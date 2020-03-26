@@ -1,6 +1,7 @@
 <template>
   <section class="section">
     <div class="container">
+      <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
       <h1 class="title" v-if="poll">{{poll.name}}</h1>
       <div v-if="isVoted">
         <button v-for="option in options" v-bind:key="option.value" 
@@ -27,13 +28,16 @@
         poll: null,
         options: [],
         isVoted: false,
+        isLoading: false,
         selectedOption: 0,
         user: {"userId":"Uec2c48270f939fb48fc5b1e9e9f8e016","displayName":"Nui (นุ้ย)","pictureUrl":"https://profile.line-scdn.net/0h-A8HUAf0cm4FMVpSchENOTl0fANyH3QmfVVqDyE1JAp7A2c4OFRvCidmKF4pCTw7Ol8_WiJkK1wg"}
       }
     },
     mounted() {
+      this.isLoading = true
       firebaseApp.pollsCollection.doc(this.pollId).onSnapshot(docSnapshot => {
         console.log(`Received doc snapshot: ${JSON.stringify(docSnapshot.data())}`)
+        this.isLoading = false
         const poll = docSnapshot.data()
         this.poll = poll
         this.options = poll.options
@@ -44,6 +48,7 @@
         }
       }, err => {
         console.log(`Encountered error: ${err}`)
+        this.isLoading = false
       })
     },
     methods: {
