@@ -26,7 +26,6 @@
         pollId: this.$route.params.pollId,
         poll: null,
         options: [],
-        voters: [],
         isVoted: false,
         selectedOption: 0,
         user: {"userId":"Uec2c48270f939fb48fc5b1e9e9f8e016","displayName":"Nui (นุ้ย)","pictureUrl":"https://profile.line-scdn.net/0h-A8HUAf0cm4FMVpSchENOTl0fANyH3QmfVVqDyE1JAp7A2c4OFRvCidmKF4pCTw7Ol8_WiJkK1wg"}
@@ -38,7 +37,11 @@
         const poll = docSnapshot.data()
         this.poll = poll
         this.options = poll.options
-        this.isVoted = Array.isArray(poll.voters) && poll.voters.filter(voter => voter.userId === this.user.userId).length > 0
+        const myVote = Array.isArray(poll.voters) ? poll.voters.filter(voter => voter.userId === this.user.userId)[0] : {}
+        if (myVote && myVote.option) {
+          this.isVoted = true
+          this.selectedOption = myVote.option
+        }
       }, err => {
         console.log(`Encountered error: ${err}`)
       })
