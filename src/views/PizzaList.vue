@@ -63,7 +63,7 @@ export default {
       if (liff.isLoggedIn()) {
         liff.getProfile()
         .then(profile => {
-          console.log(JSON.stringify(profile))
+          // console.log(JSON.stringify(profile))
           this.userProfile = profile
         })
         .catch((err) => {
@@ -89,14 +89,16 @@ export default {
     order(pizza) {
       console.log(pizza.name)
       const liff = this.$liff
-      if (liff.isInClient()) {
+      const context = liff.getContext()
+      if (context && context.type !== "none") {
         liff.sendMessages([{
           'type': 'text',
           'text': `สั่ง ${pizza.name}`
         }]).then(function() {
-          console.log('Message sent');
+          console.log('Message sent')
+          liff.closeWindow()
         }).catch(function(error) {
-          console.log('Error sending message: ' + error);
+          console.log('Error sending message: ' + error)
         });
       }
     },
@@ -108,9 +110,9 @@ export default {
         'type': 'text',
         'text': 'ช่วยดูเมนูพิซซ่าหน่อย กินไรดี ' + line.menuLiffUrl 
       }]).then(function() {
-        console.log('Message sent');
+        console.log('Message sent')
       }).catch(function(error) {
-        console.log('Error sending message: ' + error);
+        console.log('Error sending message: ' + error)
       });
     }
   }
