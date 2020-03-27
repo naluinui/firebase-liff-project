@@ -6,8 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "setup": "node setup/main.js",
-    "deploy:functions": "firebase deploy --only functions"
+    "setup": "node setup/main.js"
   },
   "dependencies": {
     "buefy": "^0.8.13",
