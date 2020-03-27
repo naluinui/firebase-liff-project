@@ -124,7 +124,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
             "action": {
               "type": "uri",
               "label": "ดูเมนูทั้งหมด",
-              "uri": "https://liff.line.me/1653977512-WPxrl0xv" // TODO: change this to your LIFF app
+              "uri": "https://www.google.com/" // TODO: change this to your LIFF app
             },
             "color": "#ffffff",
             "gravity": "center",
