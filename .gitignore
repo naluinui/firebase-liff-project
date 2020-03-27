@@ -6,6 +6,7 @@ node_modules
 .env.local
 .env.*.local
 firebase-config.json
+ngrok
 
 # Log files
 npm-debug.log*

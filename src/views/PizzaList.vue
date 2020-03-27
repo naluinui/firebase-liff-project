@@ -34,7 +34,7 @@
         
         </div>
         <!-- TODO: add share button-->
-        <div class="share" v-if="userProfile">
+        <div class="share" v-if="userProfile && !isLoading">
           <p class="subtitle">หรือถ้าคิดไม่ออก ลองส่งเมนูไปให้เพื่อนช่วยเลือกมั้ย 🤓</p>
           <button class="button" @click="share">แชร์เมนู</button>
         </div>
@@ -63,7 +63,7 @@ export default {
       if (liff.isLoggedIn()) {
         liff.getProfile()
         .then(profile => {
-          console.log(JSON.stringify(profile))
+          // console.log(JSON.stringify(profile))
           this.userProfile = profile
         })
         .catch((err) => {
@@ -79,24 +79,26 @@ export default {
     // TODO: get pizza from Firestore
     this.isLoading = true
     firebaseApp.pizzasCollection.get().then(snapshot => {
-      this.isLoading = false
       this.pizzas = snapshot.docs.map ( doc => (
         {id: doc.id, ...doc.data()}
       ))
+      this.isLoading = false
     });
   },
   methods: {
     order(pizza) {
       console.log(pizza.name)
       const liff = this.$liff
-      if (liff.isInClient()) {
+      const context = liff.getContext()
+      if (context && context.type !== "none") {
         liff.sendMessages([{
           'type': 'text',
           'text': `สั่ง ${pizza.name}`
         }]).then(function() {
-          console.log('Message sent');
+          console.log('Message sent')
+          liff.closeWindow()
         }).catch(function(error) {
-          console.log('Error sending message: ' + error);
+          console.log('Error sending message: ' + error)
         });
       }
     },
@@ -108,9 +110,9 @@ export default {
         'type': 'text',
         'text': 'ช่วยดูเมนูพิซซ่าหน่อย กินไรดี ' + line.menuLiffUrl 
       }]).then(function() {
-        console.log('Message sent');
+        console.log('Message sent')
       }).catch(function(error) {
-        console.log('Error sending message: ' + error);
+        console.log('Error sending message: ' + error)
       });
     }
   }

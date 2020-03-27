@@ -19,7 +19,7 @@
 </template>
 
 <script> 
-  import firebase from 'firebase'
+  import firebase from 'firebase/firebase-firestore'
   const firebaseApp = require('../firebase.js')
   const line  = require('../line-config.js')
 
