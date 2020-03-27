@@ -32,13 +32,13 @@
           </div>
         </div>
       </div>
-      <!-- TODO: add share button-->
+      <!-- TODO: 4 add share button-->
     </div>
   </section>
 </template>
 
 <script>
-
+// TODO: 1.1 import FirebaseApp from Helper file
 export default {
   data() {
     return {
@@ -53,15 +53,15 @@ export default {
     }
   },
   mounted() {
-    // TODO: initial LIFF
-    // TODO: get pizza from Firestore
+    // TODO: 2 initial LIFF
+    // TODO: 1.2 get pizza from Firestore
   },
   methods: {
     order(pizza) {
       console.log(pizza.name)
-      // TODO: send message to the chat
+      // TODO: 3 send message to the chat
     }, share() {
-      // TODO: implement share menu action
+      // TODO: 5 implement share menu action
     }
   }
 }
