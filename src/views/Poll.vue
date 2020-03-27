@@ -21,6 +21,7 @@
 <script> 
   import firebase from 'firebase'
   const firebaseApp = require('../firebase.js')
+  const line  = require('../line-config.js')
 
   export default {  
     data() {
@@ -34,6 +35,24 @@
         createdBy: 'unknown',
         user: {"userId":"Uec2c48270f939fb48fc5b1e9e9f8e016","displayName":"Nui (นุ้ย)","pictureUrl":"https://profile.line-scdn.net/0h-A8HUAf0cm4FMVpSchENOTl0fANyH3QmfVVqDyE1JAp7A2c4OFRvCidmKF4pCTw7Ol8_WiJkK1wg"}
       }
+    },
+    beforeCreate() {
+      const app = this
+      const liff = app.$liff
+      liff.init({liffId: line.pollLiffID}).then(() => {
+        console.log('LIFF initialized')
+        if (!liff.isLoggedIn()) {
+          // LIFF does not support params, so replace with query string
+          const redirectUri = (window.location.origin + app.$router.currentRoute.fullPath).replace(/\/poll\//, '/poll?poll=')
+          return liff.login({ redirectUri: redirectUri })
+        }
+        // Logged in already
+        return liff.getProfile().then(profile => {
+          app.user = profile
+        })
+      }).catch((err) => {
+        console.error(err)
+      })
     },
     mounted() {
       this.isLoading = true
