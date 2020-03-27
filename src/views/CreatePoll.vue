@@ -28,24 +28,19 @@ export default {
   beforeMount() {
     const app = this
     const liff = app.$liff
-    // TODO: initial LIFF
     liff.init({
       liffId: line.createPollLiffID
     }).then(() => {
+      console.log('LIFF initialized')
       if (!liff.isLoggedIn()) {
-        liff.login()
+        return liff.login()
       } else {
-        liff.getProfile()
-        .then(profile => {
+        return liff.getProfile().then(profile => {
+          delete profile.statusMessage // No one needs to see this!
           console.log(JSON.stringify(profile))
           app.userProfile = profile
-          delete app.userProfile.statusMessage
-        })
-        .catch((err) => {
-          console.error(err)
         })
       }
-      console.log('LIFF initialize finished')
     }).catch((err) => {
       console.error(err)
     })
