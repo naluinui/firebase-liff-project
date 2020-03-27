@@ -26,7 +26,7 @@
   export default {  
     data() {
       return {
-        pollId: this.$route.query.id,
+        pollId: this.$route.params.id,
         poll: null,
         options: [],
         isVoted: false,
@@ -43,7 +43,7 @@
         console.log('LIFF initialized')
         if (liff.getOS() === 'web' && !liff.isLoggedIn()) {
           // LINE Login needs a specific redirectUri
-          const redirectUri = (window.location.origin + app.$router.currentRoute.fullPath) + '?id=' + this.pollId
+          const redirectUri = (window.location.origin + app.$router.currentRoute.fullPath)
           liff.login({redirectUri})
         }
         // Logged in already
@@ -55,11 +55,6 @@
       })
     },
     mounted() {
-      if (this.pollId === undefined && this.$route.query['liff.state']) {
-        const params = new URLSearchParams(this.$route.query['liff.state'])
-        this.pollId = params.get('id')
-      }
-      console.log('postId', this.pollId)
       this.isLoading = true
       firebaseApp.pollsCollection.doc(this.pollId).onSnapshot(docSnapshot => {
         console.log(`Received doc snapshot: ${JSON.stringify(docSnapshot.data())}`)
