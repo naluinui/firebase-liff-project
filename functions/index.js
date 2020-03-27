@@ -33,17 +33,16 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
   function showMenu (agent) {
     return db.collection('pizzas').get().then(snapshot => {
-      if (snapshot.empty) return agent.add(`There are no pizzas :'(`);
+      if (snapshot.empty) return agent.add(`อุ๊ย พิซซ่าหมด :'(`);
       let menu;
       if (agent.requestSource !== agent.LINE) {
-        menu = `Try these delicious pizzas:\n${snapshot.docs.map(pizza => `- ${pizza.data().name}`).sort().join('\n')}`;
+        menu = `พิซซ่าอร่อยๆของทางร้านมีหน้า:\n${snapshot.docs.map(pizza => `- ${pizza.data().name}`).sort().join('\n')}`;
       }
       else {
         const carousel = getFlexMessage(snapshot.docs)
         menu = carousel
         menu = new Payload(agent.LINE, carousel, { sendAsMessage: true });
       }
-      const message = 'Feel free to ask me about any pizza';
       return agent.add(menu);
     });
   }
@@ -125,7 +124,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
             "action": {
               "type": "uri",
               "label": "ดูเมนูทั้งหมด",
-              "uri": "https://pizzanulok-vfwchf.firebaseapp.com/products"
+              "uri": "https://liff.line.me/1653977512-WPxrl0xv" // TODO: change this to your LIFF app
             },
             "color": "#ffffff",
             "gravity": "center",
