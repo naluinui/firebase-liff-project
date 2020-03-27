@@ -32,7 +32,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
   }
 
   function showMenu (agent) {
-    return db.collection('pizzas').get().then(snapshot => {
+    return db.collection('pizzas').limit(4).get().then(snapshot => {
       if (snapshot.empty) return agent.add(`อุ๊ย พิซซ่าหมด :'(`);
       let menu;
       if (agent.requestSource !== agent.LINE) {
