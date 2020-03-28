@@ -3,7 +3,7 @@
     <div class="container">
       <h1 class="title">Create Pizzanulok Poll</h1>
       <b-field label="Name">
-          <b-input v-model="name" placeholder="Poll name"></b-input>
+        <b-input v-model="name" placeholder="Poll name"></b-input>
       </b-field>
       <div class="buttons is-centered">
         <b-button @click="cancel">Cancel</b-button>
@@ -81,7 +81,7 @@ export default {
               "text": `โพล ${app.name} ของคุณถูกสร้างแล้ว ส่งต่อให้เพื่อนได้เลย`
             },{
               "type": "text",
-              "text": line.pollLiffUrl + '?poll=' + docRef.id
+              "text": line.pollLiffUrl + '?id=' + docRef.id
             }]
             // TODO: send message to chat room once finish creating poll
             app.$liff.sendMessages(messages)

@@ -13,13 +13,13 @@
                 class="button is-fullwidth vote-option"
                 @click="addVote(option)">{{option.text}}</button>
       </div>
-      <p class="is-size-7" v-if="poll">created by {{ createdBy }}</p>
+      <p class="is-size-7" v-if="poll">Poll created by {{ createdBy }}</p>
     </div>
   </section>
 </template>
 
 <script> 
-  import firebase from 'firebase/firebase-firestore'
+  import firebase from 'firebase'
   const firebaseApp = require('../firebase.js')
   const line  = require('../line-config.js')
 
@@ -33,15 +33,16 @@
         isLoading: false,
         selectedOption: 0,
         createdBy: 'unknown',
-        user: {"userId":"Uec2c48270f939fb48fc5b1e9e9f8e016","displayName":"Nui (นุ้ย)","pictureUrl":"https://profile.line-scdn.net/0h-A8HUAf0cm4FMVpSchENOTl0fANyH3QmfVVqDyE1JAp7A2c4OFRvCidmKF4pCTw7Ol8_WiJkK1wg"}
+        user: {}
       }
     },
     beforeCreate() {
+      console.log(this.pollId)
       const app = this
       const liff = app.$liff
       liff.init({liffId: line.pollLiffID}).then(() => {
         console.log('LIFF initialized')
-        if (liff.getOS() === 'web' && !liff.isLoggedIn()) {
+        if (!liff.isLoggedIn()) {
           // LINE Login needs a specific redirectUri
           const redirectUri = (window.location.origin + app.$router.currentRoute.fullPath) + '?id=' + this.pollId
           liff.login({redirectUri})

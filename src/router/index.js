@@ -32,23 +32,6 @@ const routes = [{
   path: '/poll/:pollId/option/:optionValue',
   name: 'OptionVoters',
   component: OptionVoters
-  // },
-  // {
-  //   path: '/poll', redirect: to => {
-  //     // console.log(to.query)
-  //     // const liffState = to.query['liff.state']
-  //     // if (liffState) {
-  //     //   const poll = (new URLSearchParams(liffState)).get('poll')
-  //     //   console.log(poll)
-  //     //   window.location.replace(window.location.origin + '/poll/' + poll)
-  //     //   //return '/poll/' + poll
-  //     // }
-  //     // If url is /poll?poll=xyz then redirect to /poll/xyz (for LINE Login on web)
-  //     if (to.query.poll) {
-  //       return '/poll/' + to.query.poll
-  //     }
-  //     return '/'
-  //   }
 }
 ]
 
